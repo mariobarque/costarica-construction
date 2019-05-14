@@ -8,21 +8,26 @@ numeric_columns = ['num_obras', 'arecon', 'valobr', 'numpis', 'numviv', 'numapo'
 categorical_columns = ['anoper', 'claper', 'claobr', 'matpis', 'matpar', 'mattec', 'usoobr', 'financ',
                        'cod_provincia', 'id_canton', 'id_region']
 
+data = []
 
-class DataSet:
-    def __init__(self):
-        self.data = pd.read_csv('data/construction-data-processed.csv')
 
-    def get_data_set(self):
-        columns = numeric_columns + categorical_columns
-        df = self.data[columns]
-        return df
+def load_data():
+    global data
+    data = pd.read_csv('data/construction-data-processed.csv')
 
-    def get_numerical_data_set(self):
-        df = self.data[numeric_columns]
-        return df
 
-    def get_categorical_data_set(self):
-        df = self.data[categorical_columns]
-        return df
+def get_data_set():
+    columns = numeric_columns + categorical_columns
+    df = data[columns]
+    return df
+
+
+def get_numerical_data_set(self):
+    df = data[numeric_columns]
+    return df
+
+
+def get_categorical_data_set(self):
+    df = data[categorical_columns]
+    return df
 
