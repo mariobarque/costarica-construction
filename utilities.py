@@ -1,4 +1,7 @@
-import pandas as pd
+import matplotlib.pyplot as plt;
+import seaborn as sns
+sns.set(color_codes=True)
+plt.rcParams["figure.figsize"] = (18,7.5)
 
 
 def get_region(data):
@@ -24,3 +27,20 @@ def get_region(data):
 
     # The other cantones in Central Valley
     return 1
+
+
+def plot_distributions(df):
+    fig, axs = plt.subplots(ncols=4, nrows=3, squeeze=False)
+    sns.distplot(df['numpis'], ax=axs[0, 0])
+    sns.distplot(df['numviv'], ax=axs[0, 1])
+    sns.distplot(df['numapo'], ax=axs[0, 2])
+    sns.distplot(df['numdor'], ax=axs[0, 3])
+    sns.distplot(df['cod_provincia'], ax=axs[1, 0])
+    sns.distplot(df['id_region'], ax=axs[1, 1])
+    sns.distplot(df['valobr'], ax=axs[1, 2])
+    sns.distplot(df['arecon'], ax=axs[1, 3])
+
+    sns.distplot(df['matpis'], ax=axs[2, 2])
+    sns.distplot(df['matpar'], ax=axs[2, 3])
+    sns.distplot(df['mattec'], ax=axs[2, 0])
+    sns.distplot(df['usoobr'], ax=axs[2, 1])

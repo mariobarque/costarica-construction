@@ -5,10 +5,17 @@ import pandas as pd
 #style.use('ggplot')
 
 
-df = pd.read_csv("https://raw.githubusercontent.com/mariobarque/costarica-construction/master/data/construction-data-processed.csv")
+df = pd.read_csv("data/construction-data-processed.csv")
+
+
+#numeric_columns = ['valobr', '']
+
+df['valobr'].plot.kde()
 
 
 
 #sns.pairplot(df)
 
-df.corr()
+#df.corr()
+
+print('Hi')
