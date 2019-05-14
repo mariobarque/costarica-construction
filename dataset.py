@@ -11,9 +11,9 @@ categorical_columns = ['anoper', 'claper', 'claobr', 'matpis', 'matpar', 'mattec
 data = []
 
 
-def load_data():
+def load_data(path):
     global data
-    data = pd.read_csv('data/construction-data-processed.csv')
+    data = pd.read_csv(path)
 
 
 def get_data_set():
