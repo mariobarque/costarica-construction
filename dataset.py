@@ -9,7 +9,7 @@ categorical_columns = ['anoper', 'claper', 'claobr', 'matpis', 'matpar', 'mattec
                        'cod_provincia', 'id_canton', 'id_region']
 
 
-class DataSet(object):
+class DataSet:
     def __init__(self):
         self.data = pd.read_csv('data/construction-data-processed.csv')
 
