@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import dataset
 
 def get_region(data):
     # Chorotega: all Guanacaste plus Upala in Alajuela
@@ -29,16 +29,10 @@ def get_region(data):
 
 def plot_distributions(df):
     fig, axs = plt.subplots(ncols=4, nrows=3, squeeze=False)
-    sns.distplot(df['numpis'], ax=axs[0, 0])
-    sns.distplot(df['numviv'], ax=axs[0, 1])
-    sns.distplot(df['numapo'], ax=axs[0, 2])
-    sns.distplot(df['numdor'], ax=axs[0, 3])
-    sns.distplot(df['cod_provincia'], ax=axs[1, 0])
-    sns.distplot(df['id_region'], ax=axs[1, 1])
-    sns.distplot(df['valobr'], ax=axs[1, 2])
-    sns.distplot(df['arecon'], ax=axs[1, 3])
-
-    sns.distplot(df['matpis'], ax=axs[2, 2])
-    sns.distplot(df['matpar'], ax=axs[2, 3])
-    sns.distplot(df['mattec'], ax=axs[2, 0])
-    sns.distplot(df['usoobr'], ax=axs[2, 1])
+    sns.distplot(df[dataset.numeric_columns[0]], ax=axs[0, 0])
+    sns.distplot(df[dataset.numeric_columns[1]], ax=axs[0, 1])
+    sns.distplot(df[dataset.numeric_columns[2]], ax=axs[0, 2])
+    sns.distplot(df[dataset.numeric_columns[3]], ax=axs[0, 3])
+    sns.distplot(df[dataset.numeric_columns[4]], ax=axs[1, 0])
+    sns.distplot(df[dataset.numeric_columns[5]], ax=axs[1, 1])
+    sns.distplot(df[dataset.numeric_columns[6]], ax=axs[1, 2])
