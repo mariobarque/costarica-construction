@@ -22,12 +22,12 @@ def get_data_set():
     return df
 
 
-def get_numerical_data_set(self):
+def get_numerical_data_set():
     df = data[numeric_columns]
     return df
 
 
-def get_categorical_data_set(self):
+def get_categorical_data_set():
     df = data[categorical_columns]
     return df
 
