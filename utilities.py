@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt;
 import seaborn as sns
 sns.set(color_codes=True)
-plt.rcParams["figure.figsize"] = (18,7.5)
+plt.rcParams["figure.figsize"] = (18, 12)
 
 
 def get_region(data):
