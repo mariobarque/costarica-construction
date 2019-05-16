@@ -30,7 +30,7 @@ def get_region(data):
 def plot_distributions(df, numeric_columns):
     if len(numeric_columns) != 7:
         return
-
+    plot_distributions
     fig, axs = plt.subplots(ncols=4, nrows=2, squeeze=False)
     sns.distplot(df[numeric_columns[0]], ax=axs[0, 0])
     sns.distplot(df[numeric_columns[1]], ax=axs[0, 1])

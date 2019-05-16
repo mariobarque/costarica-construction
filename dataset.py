@@ -6,14 +6,15 @@ all_columns = ['anoper', 'num_obras', 'arecon', 'valobr', 'claper', 'claobr', 'n
 
 numeric_columns = ['num_obras', 'arecon', 'valobr', 'numpis', 'numviv', 'numapo', 'numdor']
 categorical_columns = ['anoper', 'claper', 'claobr', 'matpis', 'matpar', 'mattec', 'usoobr', 'financ',
-                       'cod_provincia', 'id_canton', 'id_region']
+                       'cod_provincia', 'id_canton', 'id_region', 'cat']
 
 data = []
 
 
-def load_data(path):
+def load_data(path, threshold):
     global data
     data = pd.read_csv(path)
+    data = set_prediction_variable(data, threshold)
 
 
 def get_data_set():
@@ -31,3 +32,7 @@ def get_categorical_data_set():
     df = data[categorical_columns]
     return df
 
+
+def set_prediction_variable(df, val):
+    df['cat'] = 1 if df['valobr'] > val else 0
+    return df
