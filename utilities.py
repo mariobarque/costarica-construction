@@ -2,6 +2,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
+def set_prediction_variable(df, val):
+    df['cat'] = df['valobr'] > val
+    return df
+
+
 def get_region(data):
     # Chorotega: all Guanacaste plus Upala in Alajuela
     if data['cod_provincia'] == 5 or data['id_canton'] == 33:

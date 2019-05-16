@@ -11,10 +11,9 @@ categorical_columns = ['anoper', 'claper', 'claobr', 'matpis', 'matpar', 'mattec
 data = []
 
 
-def load_data(path, threshold):
+def load_data(path):
     global data
     data = pd.read_csv(path)
-    data = set_prediction_variable(data, threshold)
 
 
 def get_data_set():
@@ -32,7 +31,3 @@ def get_categorical_data_set():
     df = data[categorical_columns]
     return df
 
-
-def set_prediction_variable(df, val):
-    df['cat'] = df['valobr'] > val
-    return df
