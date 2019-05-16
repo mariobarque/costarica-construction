@@ -14,7 +14,7 @@ data = []
 def load_data(path, threshold):
     global data
     data = pd.read_csv(path)
-    #data = set_prediction_variable(data, threshold)
+    data = set_prediction_variable(data, threshold)
 
 
 def get_data_set():
@@ -34,7 +34,5 @@ def get_categorical_data_set():
 
 
 def set_prediction_variable(df, val):
-    #df.loc[df['valobr'] > val, 'cat'] = 1
-    #df.loc[df['valobr'] <= val, 'cat'] = 0
-    df['cat'] = 1 if df['valobr'] > val else 0
+    df['cat'] = df['valobr'] > val
     return df
