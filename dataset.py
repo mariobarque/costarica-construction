@@ -34,5 +34,5 @@ def get_categorical_data_set():
 
 
 def set_prediction_variable(df, val):
-    df['cat'] = 1 if df['valobr'] > val else 0
+    df['cat'] = 1 if (df['valobr'] > val) else 0
     return df
