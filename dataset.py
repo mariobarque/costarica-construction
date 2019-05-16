@@ -4,7 +4,7 @@ all_columns = ['anoper', 'num_obras', 'arecon', 'valobr', 'claper', 'claobr', 'n
                'matpis', 'matpar', 'mattec', 'usoobr', 'financ', 'cod_provincia', 'provincia', 'id_canton', 'canton',
                'id_region', 'cat']
 
-numeric_columns = ['num_obras', 'arecon', 'valobr', 'numpis', 'numviv', 'numapo', 'numdor']
+numeric_columns = ['num_obras', 'arecon', 'numpis', 'numviv', 'numapo', 'numdor']
 categorical_columns = ['anoper', 'claper', 'claobr', 'matpis', 'matpar', 'mattec', 'usoobr', 'financ',
                        'cod_provincia', 'id_canton', 'id_region', 'cat']
 
