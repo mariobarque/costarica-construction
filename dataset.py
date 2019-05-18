@@ -8,7 +8,7 @@ all_columns = ['anoper', 'num_obras', 'arecon', 'valobr', 'claper', 'claobr', 'n
 numeric_columns = ['num_obras', 'arecon', 'numpis', 'numviv', 'numapo', 'numdor']
 
 categorical_columns = ['anoper', 'claper', 'claobr', 'matpis', 'matpar', 'mattec', 'usoobr', 'financ',
-                       'cod_provincia', 'id_region', 'cat']
+                       'cod_provincia', 'id_region']
 
 extra_categorical_columns = ['num_obras_cat', 'arecon_cat', 'numpis_cat', 'numviv_cat', 'numapo_cat', 'numdor_cat']
 
@@ -31,6 +31,7 @@ def get_data_set():
 
 def get_data_set_for_analysis():
     columns = categorical_columns + extra_categorical_columns
+    columns.append('cat') # Variable a predecir
     df = data[columns]
     return df
 
