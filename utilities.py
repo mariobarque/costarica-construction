@@ -44,3 +44,26 @@ def plot_distributions(df, numeric_columns):
     sns.distplot(df[numeric_columns[4]], ax=axs[1, 1])
     sns.distplot(df[numeric_columns[5]], ax=axs[1, 2])
 
+
+def plot_categorical_distributions(df, cols):
+    if len(cols) != 17:
+        return
+    fig, axs = plt.subplots(ncols=3, nrows=6, squeeze=False)
+
+    sns.countplot(x=cols[0], data=df, ax=axs[0, 0])
+    sns.countplot(x=cols[1], data=df, ax=axs[0, 1])
+    sns.countplot(x=cols[2], data=df, ax=axs[0, 2])
+    sns.countplot(x=cols[3], data=df, ax=axs[1, 0])
+    sns.countplot(x=cols[4], data=df, ax=axs[1, 1])
+    sns.countplot(x=cols[5], data=df, ax=axs[1, 2])
+    sns.countplot(x=cols[6], data=df, ax=axs[2, 0])
+    sns.countplot(x=cols[7], data=df, ax=axs[2, 1])
+    sns.countplot(x=cols[8], data=df, ax=axs[2, 2])
+    sns.countplot(x=cols[9], data=df, ax=axs[3, 0])
+    sns.countplot(x=cols[10], data=df, ax=axs[3, 1])
+    sns.countplot(x=cols[11], data=df, ax=axs[3, 2])
+    sns.countplot(x=cols[12], data=df, ax=axs[4, 0])
+    sns.countplot(x=cols[13], data=df, ax=axs[4, 1])
+    sns.countplot(x=cols[14], data=df, ax=axs[4, 2])
+    sns.countplot(x=cols[15], data=df, ax=axs[5, 0])
+    sns.countplot(x=cols[16], data=df, ax=axs[5, 1])

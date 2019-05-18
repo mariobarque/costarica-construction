@@ -47,13 +47,13 @@ def get_categorical_data_set():
 
 def numerical_to_categorical(df):
     df['num_obras_cat'] = pd.cut(df['num_obras'], [-1, 0, 1, 4, 10, 20, np.inf],
-                                 labels=['1', '2', '3', '4', '5', '6'])
+                                 labels=['0', '1', '4', '10', '20', '20+'])
 
     df['arecon_cat'] = pd.cut(df['arecon'], [-1, 0, 50, 100, 1000, np.inf],
-                              labels=['1', '2', '3', '4', '5'])
+                              labels=['0', '50', '100', '1000', '1000+'])
 
     df['numpis_cat'] = pd.cut(df['numpis'], [-1, 0, 1, np.inf],
-                              labels=['1', '2', '3'])
+                              labels=['0', '1', '1+'])
 
     df['numviv_cat'] = pd.cut(df['numviv'], [-1, 0, 1, np.inf],
                               labels=['1', '2', '3'])
