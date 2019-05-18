@@ -116,7 +116,7 @@ def test_model(df, weights, variable):
     #prediction = np.array([np.abs(round(x)) for x in prediction]).astype(int)
     prediction_error = np.sqrt(np.sum((prediction - b)**2))
 
-    return prediction_error
+    return prediction_error, prediction
 
 
 def k_fold_train_model(k_trains, k, variable):
@@ -130,7 +130,7 @@ def k_fold_train_model(k_trains, k, variable):
 
         current_test = k_trains[i]
         weights = train_model_lstsq(current_train, variable)
-        error = test_model(current_test, weights, variable)
+        error, prediction = test_model(current_test, weights, variable)
 
         weights_list.append(weights)
         errors.append(error)
