@@ -68,6 +68,19 @@ def plot_categorical_distributions(df, cols):
     sns.countplot(x=cols[15], data=df, ax=axs[5, 0])
 
 
+def plot_k_folds(k_trains):
+    fig, axs = plt.subplots(ncols=3, nrows=3, squeeze=False)
+    sns.countplot(x='cat', data=k_trains[0], ax=axs[0, 0])
+    sns.countplot(x='cat', data=k_trains[1], ax=axs[0, 1])
+    sns.countplot(x='cat', data=k_trains[2], ax=axs[0, 2])
+    sns.countplot(x='cat', data=k_trains[3], ax=axs[1, 0])
+    sns.countplot(x='cat', data=k_trains[4], ax=axs[1, 1])
+    sns.countplot(x='cat', data=k_trains[5], ax=axs[1, 2])
+    sns.countplot(x='cat', data=k_trains[6], ax=axs[2, 0])
+    sns.countplot(x='cat', data=k_trains[7], ax=axs[2, 1])
+    sns.countplot(x='cat', data=k_trains[8], ax=axs[2, 2])
+
+
 def create_k_trains(k, train):
     k_trains = []
     k_len = int(len(train)/k)
