@@ -66,3 +66,19 @@ def plot_categorical_distributions(df, cols):
     sns.countplot(x=cols[13], data=df, ax=axs[4, 1])
     sns.countplot(x=cols[14], data=df, ax=axs[4, 2])
     sns.countplot(x=cols[15], data=df, ax=axs[5, 0])
+
+
+def create_k_trains(k, train):
+    k_trains = []
+    k_len = int(len(train)/k)
+    for i in range(0, k):
+        current_cutoff = i * k_len
+        next_cutoff = current_cutoff + k_len
+
+        if i + 1 == k:
+            k_trains.append(train[current_cutoff:])
+        else:
+            k_trains.append(train[current_cutoff:next_cutoff])
+
+    return k_trains
+
