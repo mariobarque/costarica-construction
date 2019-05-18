@@ -46,7 +46,7 @@ def plot_distributions(df, numeric_columns):
 
 
 def plot_categorical_distributions(df, cols):
-    if len(cols) != 17:
+    if len(cols) != 16:
         return
     fig, axs = plt.subplots(ncols=3, nrows=6, squeeze=False)
 
@@ -66,4 +66,3 @@ def plot_categorical_distributions(df, cols):
     sns.countplot(x=cols[13], data=df, ax=axs[4, 1])
     sns.countplot(x=cols[14], data=df, ax=axs[4, 2])
     sns.countplot(x=cols[15], data=df, ax=axs[5, 0])
-    sns.countplot(x=cols[16], data=df, ax=axs[5, 1])
