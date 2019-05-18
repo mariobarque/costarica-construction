@@ -6,8 +6,10 @@ all_columns = ['anoper', 'num_obras', 'arecon', 'valobr', 'claper', 'claobr', 'n
                'id_region', 'cat']
 
 numeric_columns = ['num_obras', 'arecon', 'numpis', 'numviv', 'numapo', 'numdor']
+
 categorical_columns = ['anoper', 'claper', 'claobr', 'matpis', 'matpar', 'mattec', 'usoobr', 'financ',
-                       'cod_provincia', 'id_canton', 'id_region', 'cat']
+                       'cod_provincia', 'id_region', 'cat']
+
 extra_categorical_columns = ['num_obras_cat', 'arecon_cat', 'numpis_cat', 'numviv_cat', 'numapo_cat', 'numdor_cat']
 
 data = []
