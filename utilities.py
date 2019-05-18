@@ -2,6 +2,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import pandas as pd
+from sklearn.metrics import roc_curve
+from sklearn.metrics import roc_auc_score
+
 
 
 def set_prediction_variable(df, val):
@@ -139,4 +142,14 @@ def k_fold_train_model(k_trains, k, variable):
 
     return avg_weights, errors
 
+
+def plot_roc_curve(prediction, real_value):
+    fpr, tpr, thresholds = roc_curve(real_value, prediction)
+    plt.plot(fpr, tpr, color='orange', label='ROC')
+    plt.plot([0, 1], [0, 1], color='darkblue', linestyle='--')
+    plt.xlabel('Tasa de Falsos Positivos')
+    plt.ylabel('Tasa de Falsos Negativos')
+    plt.title('Receiver Operating Characteristic (ROC) Curve')
+    plt.legend()
+    plt.show()
 
