@@ -113,7 +113,7 @@ def test_model(df, weights, variable):
     A = current_test.values
 
     prediction = np.dot(A, weights)
-    prediction = np.array([np.abs(round(x)) for x in prediction]).astype(int)
+    #prediction = np.array([np.abs(round(x)) for x in prediction]).astype(int)
     prediction_error = np.sqrt(np.sum((prediction - b)**2))
 
     return prediction_error
