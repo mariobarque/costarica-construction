@@ -143,7 +143,7 @@ def k_fold_train_model(k_trains, k, variable):
     return avg_weights, errors
 
 
-def plot_roc_curve(prediction, real_value):
+def plot_roc_curve(real_value, prediction):
     fpr, tpr, thresholds = roc_curve(real_value, prediction)
     plt.plot(fpr, tpr, color='orange', label='ROC')
     plt.plot([0, 1], [0, 1], color='darkblue', linestyle='--')
@@ -152,4 +152,3 @@ def plot_roc_curve(prediction, real_value):
     plt.title('Receiver Operating Characteristic (ROC) Curve')
     plt.legend()
     plt.show()
-
