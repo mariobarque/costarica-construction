@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 
 
 def set_prediction_variable(df, val):
@@ -43,3 +44,23 @@ def plot_distributions(df, numeric_columns):
     sns.distplot(df[numeric_columns[3]], ax=axs[1, 0])
     sns.distplot(df[numeric_columns[4]], ax=axs[1, 1])
     sns.distplot(df[numeric_columns[5]], ax=axs[1, 2])
+
+
+def numerical_to_categorical(df):
+    df['num_obras_cat'] = pd.cut(df['num_obras'], [-1, 0, 1, 4, 10, 20, np.inf],
+                                 labels=['1', '2', '3', '4', '5', '6'])
+
+    df['arecon_cat'] = pd.cut(df['arecon'], [-1, 0, 50, 100, 1000, np.inf],
+                              labels=['1', '2', '3', '4', '5'])
+
+    df['numpis_cat'] = pd.cut(df['numpis'], [-1, 0, 1, np.inf],
+                              labels=['1', '2', '3'])
+
+    df['numviv_cat'] = pd.cut(df['numviv'], [-1, 0, 1, np.inf],
+                              labels=['1', '2', '3'])
+
+    df['numapo_cat'] = pd.cut(df['numapo'], [-1, 0, 4, 10, np.inf],
+                              labels=['1', '2', '3', '4'])
+
+    df['numdor_cat'] = pd.cut(df['numdor'], [-1, 0, 4, 10, np.inf],
+                              labels=['1', '2', '3', '4'])

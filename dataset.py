@@ -7,6 +7,7 @@ all_columns = ['anoper', 'num_obras', 'arecon', 'valobr', 'claper', 'claobr', 'n
 numeric_columns = ['num_obras', 'arecon', 'numpis', 'numviv', 'numapo', 'numdor']
 categorical_columns = ['anoper', 'claper', 'claobr', 'matpis', 'matpar', 'mattec', 'usoobr', 'financ',
                        'cod_provincia', 'id_canton', 'id_region', 'cat']
+extra_categorical_columns = ['num_obras_cat', 'arecon_cat', 'numpis_cat', 'numviv_cat', 'numapo_cat', 'numdor_cat']
 
 data = []
 
@@ -20,6 +21,12 @@ def load_data(path):
 
 def get_data_set():
     columns = numeric_columns + categorical_columns
+    df = data[columns]
+    return df
+
+
+def get_data_set_for_analysis():
+    columns = categorical_columns + extra_categorical_columns
     df = data[columns]
     return df
 
