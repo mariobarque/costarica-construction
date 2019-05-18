@@ -14,6 +14,8 @@ data = []
 def load_data(path):
     global data
     data = pd.read_csv(path)
+    # Shuffle data
+    data = data.sample(frac=1).reset_index(drop=True)
 
 
 def get_data_set():
