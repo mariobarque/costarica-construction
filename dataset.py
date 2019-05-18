@@ -1,4 +1,5 @@
 import pandas as pd
+import utilities
 
 all_columns = ['anoper', 'num_obras', 'arecon', 'valobr', 'claper', 'claobr', 'numpis', 'numviv', 'numapo', 'numdor',
                'matpis', 'matpar', 'mattec', 'usoobr', 'financ', 'cod_provincia', 'provincia', 'id_canton', 'canton',
@@ -17,6 +18,7 @@ def load_data(path):
     data = pd.read_csv(path)
     # Shuffle data
     data = data.sample(frac=1).reset_index(drop=True)
+    utilities.numerical_to_categorical(data)
 
 
 def get_data_set():
