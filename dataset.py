@@ -1,5 +1,5 @@
 import pandas as pd
-import utilities
+import numpy as np
 
 all_columns = ['anoper', 'num_obras', 'arecon', 'valobr', 'claper', 'claobr', 'numpis', 'numviv', 'numapo', 'numdor',
                'matpis', 'matpar', 'mattec', 'usoobr', 'financ', 'cod_provincia', 'provincia', 'id_canton', 'canton',
@@ -18,7 +18,7 @@ def load_data(path):
     data = pd.read_csv(path)
     # Shuffle data
     data = data.sample(frac=1).reset_index(drop=True)
-    utilities.numerical_to_categorical(data)
+    numerical_to_categorical(data)
 
 
 def get_data_set():
@@ -42,3 +42,22 @@ def get_categorical_data_set():
     df = data[categorical_columns]
     return df
 
+
+def numerical_to_categorical(df):
+    df['num_obras_cat'] = pd.cut(df['num_obras'], [-1, 0, 1, 4, 10, 20, np.inf],
+                                 labels=['1', '2', '3', '4', '5', '6'])
+
+    df['arecon_cat'] = pd.cut(df['arecon'], [-1, 0, 50, 100, 1000, np.inf],
+                              labels=['1', '2', '3', '4', '5'])
+
+    df['numpis_cat'] = pd.cut(df['numpis'], [-1, 0, 1, np.inf],
+                              labels=['1', '2', '3'])
+
+    df['numviv_cat'] = pd.cut(df['numviv'], [-1, 0, 1, np.inf],
+                              labels=['1', '2', '3'])
+
+    df['numapo_cat'] = pd.cut(df['numapo'], [-1, 0, 4, 10, np.inf],
+                              labels=['1', '2', '3', '4'])
+
+    df['numdor_cat'] = pd.cut(df['numdor'], [-1, 0, 4, 10, np.inf],
+                              labels=['1', '2', '3', '4'])
