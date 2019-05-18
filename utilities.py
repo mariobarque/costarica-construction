@@ -35,11 +35,10 @@ def get_region(data):
 def plot_distributions(df, numeric_columns):
     if len(numeric_columns) != 6:
         return
-    plot_distributions
     fig, axs = plt.subplots(ncols=3, nrows=2, squeeze=False)
-    sns.distplot(df[0], ax=axs[0, 0])
-    sns.distplot(df[1], ax=axs[0, 1])
-    sns.distplot(df[2], ax=axs[0, 2])
-    sns.distplot(df[3], ax=axs[1, 0])
-    sns.distplot(df[4], ax=axs[1, 1])
-    sns.distplot(df[5], ax=axs[1, 2])
+    sns.distplot(df[numeric_columns[0]], ax=axs[0, 0])
+    sns.distplot(df[numeric_columns[1]], ax=axs[0, 1])
+    sns.distplot(df[numeric_columns[2]], ax=axs[0, 2])
+    sns.distplot(df[numeric_columns[3]], ax=axs[1, 0])
+    sns.distplot(df[numeric_columns[4]], ax=axs[1, 1])
+    sns.distplot(df[numeric_columns[5]], ax=axs[1, 2])
