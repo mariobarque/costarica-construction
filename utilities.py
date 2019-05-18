@@ -32,10 +32,12 @@ def get_region(data):
     return 1
 
 
-def plot_distributions(df, numeric_columns):
+def plot_distributions(df, numeric_columns, title):
     if len(numeric_columns) != 6:
         return
     fig, axs = plt.subplots(ncols=3, nrows=2, squeeze=False)
+    fig.canvas.set_window_title(title)
+
     sns.distplot(df[numeric_columns[0]], ax=axs[0, 0])
     sns.distplot(df[numeric_columns[1]], ax=axs[0, 1])
     sns.distplot(df[numeric_columns[2]], ax=axs[0, 2])
