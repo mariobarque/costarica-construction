@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
+import pandas as pd
 
 
 def set_prediction_variable(df, val):
@@ -94,4 +96,47 @@ def create_k_trains(k, train):
             k_trains.append(train[current_cutoff:next_cutoff])
 
     return k_trains
+
+
+def train_model_lstsq(df, variable):
+    b = df['cat'].values
+    current_train = df.drop(variable, 1)
+    A = current_train.values
+    weights = np.linalg.lstsq(A, b)[0]
+
+    return weights
+
+
+def test_model(df, weights, variable):
+    b = df[variable].values
+    current_test = df.drop(variable, 1)
+    A = current_test.values
+
+    prediction = np.dot(A, weights)
+    prediction = np.array([np.abs(round(x)) for x in prediction]).astype(int)
+    prediction_error = np.sqrt(np.sum((prediction - b)**2))
+
+    return prediction_error
+
+
+def k_fold_train_model(k_trains, k, variable):
+    weights_list = []
+    errors = []
+    for i in range(0, k):
+        current_train = pd.DataFrame()
+        for j in range(0, k):
+            if j != i:
+                current_train = current_train.append(k_trains[j], ignore_index=True)
+
+        current_test = k_trains[i]
+        weights = train_model_lstsq(current_train, variable)
+        error = test_model(current_test, weights, variable)
+
+        weights_list.append(weights)
+        errors.append(error)
+
+    avg_weights = [np.mean(a) for a in zip(*weights_list)]
+
+    return avg_weights, errors
+
 
