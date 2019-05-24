@@ -102,7 +102,7 @@ def create_k_trains(k, train):
 
 
 def train_model_lstsq(df, variable):
-    b = df['cat'].values
+    b = df[variable].values
     current_train = df.drop(variable, 1)
     A = current_train.values
     weights = np.linalg.lstsq(A, b)[0]
