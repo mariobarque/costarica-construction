@@ -29,7 +29,8 @@ def get_data_set():
     return df
 
 
-def get_data_for_model():
+def get_data_for_model(path):
+    load_data(path)
     cols = categorical_columns + extra_categorical_columns
 
     df = get_data_set_for_analysis()
