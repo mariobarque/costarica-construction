@@ -4,7 +4,6 @@ import pandas as pd
 
 def get_data(path):
     dataset.load_data(path)
-    df = dataset.get_data_set_for_analysis()
 
     cols = dataset.categorical_columns + dataset.extra_categorical_columns
     df = dataset.get_data_set_for_analysis()
@@ -19,8 +18,7 @@ def get_data(path):
     total_class_one = df_encoded['cat'].where(lambda cat: cat == 1).count()
     min = np.min([total_class_zero, total_class_one])
 
-    MAX_N = min * 2
-    N = MAX_N
+    N = min * 2
 
     # Obtenemos los datos y unimos las clases
     class_zero = df_encoded.loc[df['cat'] == 0].head(int(N/2))
