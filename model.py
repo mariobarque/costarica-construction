@@ -2,17 +2,17 @@ import pandas as pd
 import numpy as np
 
 
-def create_k_trains(k, train):
+def create_k_trains(k, train_dataset):
     k_trains = []
-    k_len = int(len(train)/k)
+    k_len = int(len(train_dataset)/k)
     for i in range(0, k):
         current_cutoff = i * k_len
         next_cutoff = current_cutoff + k_len
 
         if i + 1 == k:
-            k_trains.append(train[current_cutoff:])
+            k_trains.append(train_dataset[current_cutoff:])
         else:
-            k_trains.append(train[current_cutoff:next_cutoff])
+            k_trains.append(train_dataset[current_cutoff:next_cutoff])
 
     return k_trains
 
@@ -39,7 +39,7 @@ def train(train_dataset, k, model, prediction_variable):
 
         current_test = k_trains[i]
         weights = model(current_train, prediction_variable)
-        error, prediction = test_model(current_test, weights, prediction_variable)
+        error, prediction = test(current_test, weights, prediction_variable)
 
         weights_list.append(weights)
         errors.append(error)
