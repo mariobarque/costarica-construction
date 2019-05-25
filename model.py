@@ -16,7 +16,7 @@ def create_k_trains(k, train):
 
     return k_trains
 
-def test_model(df, weights, variable):
+def test(df, weights, variable):
     b = df[variable].values
     current_test = df.drop(variable, 1)
     A = current_test.values
@@ -27,7 +27,7 @@ def test_model(df, weights, variable):
     return prediction_error, prediction
 
 
-def train_model(train_dataset, k, model, prediction_variable):
+def train(train_dataset, k, model, prediction_variable):
     k_trains = create_k_trains(k, train_dataset)
     weights_list = []
     errors = []
