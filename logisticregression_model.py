@@ -3,10 +3,10 @@ import torch.nn as nn
 
 
 def evaluate_sigmoid(W, X):
-    NetWeights = torch.mm(X, W)
+    net_weights = torch.mm(X, W)
     sigmoid = nn.Sigmoid()
-    Activation = sigmoid(NetWeights)
-    return Activation
+    activation = sigmoid(net_weights)
+    return activation
 
 def get_delta_weights_for_class(weights, samples, alpha, target):
     activation_samples = evaluate_sigmoid(weights, samples)
