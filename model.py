@@ -86,4 +86,4 @@ def train_network(train_dataset, k, model, prediction_variable, epochs = 50, alp
     avg_wo = np.mean(np.array(wo_list), axis=0)
     avg_ws = np.mean(np.array(ws_list), axis=0)
 
-    return errors, avg_wo, avg_ws
+    return errors_list, avg_wo, avg_ws
