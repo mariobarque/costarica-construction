@@ -80,10 +80,10 @@ def train_network(train_dataset, k, model, prediction_variable, epochs = 50, alp
         current_test = k_trains[i]
         errors, wo, ws = model(current_test, prediction_variable, epochs, alpha)
         errors_list.append(errors)
-        wo_list.append(wo)
-        ws_list.append(ws)
+        wo_list.append(wo.numpy())
+        ws_list.append(ws.numpy())
 
-    avg_wo = [np.mean(a) for a in zip(*wo)]
-    avg_ws = [np.mean(a) for a in zip(*ws)]
+    avg_wo = np.mean(np.array(wo_list), axis=0)
+    avg_ws = np.mean(np.array(ws_list), axis=0)
 
     return errors, avg_wo, avg_ws
