@@ -67,9 +67,9 @@ def train(train_dataset, k, model, prediction_variable):
 
 def train_network(train_dataset, k, model, prediction_variable, epochs = 50, alpha = 0.1):
     k_trains = create_k_trains(k, train_dataset)
-    errors_list = [k]
-    wo_list = [k]
-    ws_list = [k]
+    errors_list = []
+    wo_list = []
+    ws_list = []
 
     for i in range(0, k):
         current_train = pd.DataFrame()
