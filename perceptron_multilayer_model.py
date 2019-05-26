@@ -1,6 +1,5 @@
 import torch
 import torch.nn.init as init
-import dataset
 from sklearn.model_selection import train_test_split
 
 
@@ -87,7 +86,7 @@ def train(df, prediction_variable, epochs = 50, alpha = 0.1):
 
 
 def construction_data():
-    df = dataset.get_data_for_model('data/construction-data-processed.csv', N=1000)
+    #df = dataset.get_data_for_model('data/construction-data-processed.csv', N=1000)
     train, test = train_test_split(df, test_size=0.2)
 
     T = torch.Tensor(train['cat'].values)
