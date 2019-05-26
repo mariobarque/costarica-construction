@@ -85,8 +85,8 @@ def train(df, prediction_variable, epochs = 50, alpha = 0.1):
 ###########################################################################################
 
 
-def construction_data():
-    #df = dataset.get_data_for_model('data/construction-data-processed.csv', N=1000)
+def construction_data(dataset):
+    df = dataset.get_data_for_model('data/construction-data-processed.csv', N=1000)
     train, test = train_test_split(df, test_size=0.2)
 
     T = torch.Tensor(train['cat'].values)
@@ -98,9 +98,9 @@ def construction_data():
 
 def create_data():
 
-    X, T = construction_data()
-    #X = torch.Tensor([[1, 0, 0, 0, 0], [1, 1, 1, 1, 0], [0, 0, 0, 0, 1], [1, 1, 0, 1, 0]])
-    #T = torch.Tensor([[0], [1], [0], [1]])
+    #X, T = construction_data()
+    X = torch.Tensor([[1, 0, 0, 0, 0], [1, 1, 1, 1, 0], [0, 0, 0, 0, 1], [1, 1, 0, 1, 0]])
+    T = torch.Tensor([[0], [1], [0], [1]])
 
     return X, T
 
