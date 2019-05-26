@@ -13,8 +13,8 @@ def create_multilayer_perceptron_parameters(input_layer_size, hidden_layer_size,
     return wo, ws
 
 
-def forward_pass_test(wo, ws, df):
-    X = torch.Tensor(df.values)
+def forward_pass_test(wo, ws, X):
+    X = torch.Tensor(X)
     return forward_pass(wo, ws, X)
 
 
