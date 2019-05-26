@@ -17,7 +17,7 @@ def forward_pass_test(wo, ws, X):
     _, output = forward_pass(torch.Tensor(wo),
                         torch.Tensor(ws),
                         torch.Tensor(X))
-    return output
+    return output.numpy()
 
 
 def forward_pass(wo, ws, X):
