@@ -144,9 +144,6 @@ def main():
     print(ws.numpy().shape)
 
 
-main()
-
-
 
 #print(train)
 
