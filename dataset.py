@@ -29,7 +29,7 @@ def get_data_set():
     return df
 
 
-def get_data_for_model(path):
+def get_data_for_model(path, N = None):
     load_data(path)
     cols = categorical_columns + extra_categorical_columns
 
@@ -42,9 +42,13 @@ def get_data_for_model(path):
 
     total_class_zero = df_encoded['cat'].where(lambda cat: cat == 0).count()
     total_class_one = df_encoded['cat'].where(lambda cat: cat == 1).count()
-    min = np.min([total_class_zero, total_class_one])
+    min_class_size = np.min([total_class_zero, total_class_one])
 
-    N = min * 2
+    if N is None:
+        N = min_class_size * 2
+    else:
+        if N > (min_class_size * 2):
+            N = min_class_size * 2
 
     # Obtenemos los datos y unimos las clases
     class_zero = df_encoded.loc[df['cat'] == 0].head(int(N/2))

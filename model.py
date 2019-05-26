@@ -16,15 +16,31 @@ def create_k_trains(k, train_dataset):
 
     return k_trains
 
+
 def test(df, weights, variable):
     b = df[variable].values
     current_test = df.drop(variable, 1)
     A = current_test.values
 
     prediction = np.dot(A, weights)
-    prediction_error = np.sqrt(np.sum((prediction - b)**2))
+    error = prediction_error(prediction, b)
 
-    return prediction_error, prediction
+    return error, prediction
+
+
+def test_network(df, forward_pass_test, wo, ws, variable):
+    b = df[variable].values
+    current_test = df.drop(variable, 1)
+    A = current_test.values
+
+    prediction = forward_pass_test(wo, ws, A)
+    error = prediction_error(prediction, b)
+
+    return error, prediction
+
+
+def prediction_error(prediction, b):
+    return np.sqrt(np.sum((prediction - b) ** 2))
 
 
 def train(train_dataset, k, model, prediction_variable):
@@ -47,3 +63,27 @@ def train(train_dataset, k, model, prediction_variable):
     avg_weights = [np.mean(a) for a in zip(*weights_list)]
 
     return avg_weights, errors
+
+
+def train_network(train_dataset, k, model, prediction_variable, epochs = 50, alpha = 0.1):
+    k_trains = create_k_trains(k, train_dataset)
+    errors_list = [k]
+    wo_list = [k]
+    ws_list = [k]
+
+    for i in range(0, k):
+        current_train = pd.DataFrame()
+        for j in range(0, k):
+            if j != i:
+                current_train = current_train.append(k_trains[j], ignore_index=True)
+
+        current_test = k_trains[i]
+        errors, wo, ws = model(current_test, prediction_variable, epochs, alpha)
+        errors_list.append(errors)
+        wo_list.append(wo)
+        ws_list.append(ws)
+
+    avg_wo = [np.mean(a) for a in zip(*wo)]
+    avg_ws = [np.mean(a) for a in zip(*ws)]
+
+    return errors, avg_wo, avg_ws
