@@ -64,11 +64,11 @@ def train(df, prediction_variable, epochs = 50, alpha = 0.1):
     input_layer_size, hidden_layer_size, output_layer_size = columns_size, columns_size, 1
     wo, ws = create_multilayer_perceptron_parameters(input_layer_size, hidden_layer_size, output_layer_size)
 
-    errors = [epochs]
+    errors = []
     for epoch in range(epochs):
         hidden_output, output = forward_pass(wo, ws, X)
 
-        errors[epoch] = evaluate_error(output, T)
+        errors.append(evaluate_error(output, T))
 
         delta_s, new_ws = update_output_weights(ws, hidden_output, T, output, alpha)
         new_wo = update_hidden_weights(X, wo, ws, delta_s, hidden_output, alpha)
