@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 import seaborn as sns
 from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
@@ -140,3 +142,30 @@ def plot_error(errors):
     plt.ylabel('Value')
     plt.title('Error')
     plt.show()
+
+
+'''
+@errors an array of error values
+    Plot the error value in every element in the array creating a curve
+'''
+def plot_error_as_counpot(errors):
+    sns.countplot(data=errors)
+    axes = plt.subplots()[1]
+    axes.plot(errors, color='red', label='error')
+    plt.xlabel('Iterations')
+    plt.ylabel('Value')
+    plt.title('Error')
+    plt.show()
+
+
+'''
+@df dataframe
+@weights the weights that were produced by the model
+    Get top 10 most significant values by their weight
+Return top 10 most significant values by their weight
+'''
+def get_top_ten_most_significant_variables(df, weights):
+    tuples = zip(df.columns.values[1:], np.array(weights))
+    weights_df = pd.DataFrame(tuples, columns=['Column', 'Weight'])
+
+    return weights_df.sort_values('Weight', ascending=False).head(10)
