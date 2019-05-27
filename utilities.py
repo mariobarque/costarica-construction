@@ -186,11 +186,11 @@ def get_comparison_dataset(values, prediction_lstsqr, prediction_logistic, predi
     prediction_lstsqr[prediction_lstsqr < threshold] = int(0)
     prediction_lstsqr[prediction_lstsqr >= threshold] = int(1)
 
-    prediction_logistic[prediction_lstsqr < threshold] = int(0)
-    prediction_logistic[prediction_lstsqr >= threshold] = int(1)
+    prediction_logistic[prediction_logistic < threshold] = int(0)
+    prediction_logistic[prediction_logistic >= threshold] = int(1)
 
-    prediction_perceptron[prediction_lstsqr < threshold] = int(0)
-    prediction_perceptron[prediction_lstsqr >= threshold] = int(1)
+    prediction_perceptron[prediction_perceptron < threshold] = int(0)
+    prediction_perceptron[prediction_perceptron >= threshold] = int(1)
 
     tuples = zip(values, prediction_lstsqr, prediction_logistic, prediction_perceptron)
 
