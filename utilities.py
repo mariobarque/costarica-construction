@@ -193,7 +193,24 @@ def get_comparison_dataset(values, prediction_lstsqr, prediction_logistic, predi
     prediction_perceptron[prediction_perceptron >= threshold] = int(1)
 
     tuples = zip(values, prediction_lstsqr, prediction_logistic, prediction_perceptron)
-
     comparison_df = pd.DataFrame(tuples, columns=['cat', 'lstsqr', 'logistic', 'perceptron'])
 
     return comparison_df
+
+'''
+@df data set gotten from get_comparison_dataset
+@col the model
+@prediction_variable the prediction variable
+    Calculate the true positives, false positives and false negatives
+    and calculates the precision and recall. Print it
+'''
+def print_precision_recall(df, col, prediction_variable):
+    tp = df.loc[(df[prediction_variable] == 1) & (df[col] == 1)].count()[0]
+    fp = df.loc[(df[prediction_variable] == 0) & (df[col] == 1)].count()[0]
+    fn = df.loc[(df[prediction_variable] == 1) & (df[col] == 0)].count()[0]
+
+    p = tp / (tp + fp)
+    r = tp / (tp + fn)
+
+    print('%s precision: ' % col, p)
+    print('%s recall: ' % col, r)
