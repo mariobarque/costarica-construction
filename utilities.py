@@ -170,3 +170,30 @@ def get_top_most_significant_variables(df, weights, top):
     weights_df = pd.DataFrame(tuples, columns=['Column', 'Weight'])
 
     return weights_df.sort_values('Weight', ascending=False).head(top)
+
+
+'''
+@values the real values
+@prediction_lstsqr the prediction with least square
+@prediction_logistic the prediction with logistic regression
+@prediction_perceptron the prediction with multi layer perceptrons
+    Convert all float data into ones and zeros so they can be compared with the real values
+Returns a dataframe with all the values
+'''
+def get_comparison_dataset(values, prediction_lstsqr, prediction_logistic, prediction_perceptron):
+    threshold = 0.5
+
+    prediction_lstsqr[prediction_lstsqr < threshold] = int(0)
+    prediction_lstsqr[prediction_lstsqr >= threshold] = int(1)
+
+    prediction_logistic[prediction_lstsqr < threshold] = int(0)
+    prediction_logistic[prediction_lstsqr >= threshold] = int(1)
+
+    prediction_perceptron[prediction_lstsqr < threshold] = int(0)
+    prediction_perceptron[prediction_lstsqr >= threshold] = int(1)
+
+    tuples = zip(values, prediction_lstsqr, prediction_logistic, prediction_perceptron)
+
+    comparison_df = pd.DataFrame(tuples, columns=['cat', 'lstsqr', 'logistic', 'perceptron'])
+
+    return comparison_df
