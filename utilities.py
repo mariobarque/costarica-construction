@@ -165,7 +165,7 @@ def plot_error_as_counpot(errors):
     Get top 10 most significant values by their weight
 Return top 10 most significant values by their weight
 '''
-def get_top_ten_most_significant_variables(df, weights, top):
+def get_top_most_significant_variables(df, weights, top):
     tuples = zip(df.columns.values[1:], np.array(weights))
     weights_df = pd.DataFrame(tuples, columns=['Column', 'Weight'])
 
