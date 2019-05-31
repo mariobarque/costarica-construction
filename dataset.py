@@ -41,13 +41,14 @@ def get_data_set():
 '''
 @path the csv file's path
 @N the number of samples to limit. If not set, then it'll used all possible values
+@balanced whether we want the data balanced or not
     - Load data, since all data is set to categorical data all columns will be full of
       ones an zeros.
     - Add the prediction variable. Since we need a balanced dataset we need to find the
       size of category with less elements and that quantity of samples from both categories. 
 Returns the dataframe ready to be run in models.
 '''
-def get_data_for_model(path, N = None):
+def get_data_for_model(path, N = None, balanced = True):
     load_data(path)
     cols = categorical_columns + extra_categorical_columns
 
@@ -57,6 +58,10 @@ def get_data_for_model(path, N = None):
     # add the prediction variable
     df_encoded['cat'] = df['cat']
 
+    if not balanced:
+        return df_encoded.sample(frac=1).reset_index(drop=True)
+
+    # Balance the data
     total_class_zero = df_encoded['cat'].where(lambda cat: cat == 0).count()
     total_class_one = df_encoded['cat'].where(lambda cat: cat == 1).count()
     min_class_size = np.min([total_class_zero, total_class_one])
