@@ -315,10 +315,10 @@ class RandomForest:
 ###########################################################################################
 
 #data = pd.read_csv('data.csv')
-data = dataset.get_data_for_model('../data/construction-data-processed.csv', balanced=False)
-data = data.head(10000)
-train, test = train_test_split(data, test_size=0.1)
+#data = dataset.get_data_for_model('../data/construction-data-processed.csv', balanced=False)
+#data = data.head(10000)
+#train, test = train_test_split(data, test_size=0.1)
 
-rf = RandomForest(train, 'cat', col_groups=8, row_groups=3)
-print('Starting to evaluate forest')
-rf.evaluate_forest(max_size=1000, increase = 10)
+#rf = RandomForest(train, 'cat', col_groups=8, row_groups=3)
+#print('Starting to evaluate forest')
+#rf.evaluate_forest(max_size=1000, increase = 10)
