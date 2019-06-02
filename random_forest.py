@@ -215,6 +215,7 @@ class RandomForest:
 
 
     def train_forest(self, top=None):
+        self.trees.clear()
         for group in self.groups:
             if self.algorithm == 'id3':
                 if top is None:
@@ -317,6 +318,6 @@ class RandomForest:
 #data = data.head(10000)
 #train, test = train_test_split(data, test_size=0.1)
 
-#rf = RandomForest(x, 'cat', col_groups=2, row_groups=2)
+#rf = RandomForest(data, 'cat', col_groups=14, row_groups=5)
 #print('Starting to evaluate forest')
-#rf.evaluate_forest()
+#rf.evaluate_forest(increase=5, max_size=100)
