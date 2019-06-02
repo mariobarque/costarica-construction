@@ -160,10 +160,9 @@ class TreeBuilder:
 
 class RandomForest:
     def __init__(self, df, label, col_groups, row_groups, train_test_ratio=0.01, impurity_function='entropy', algorithm='id3'):
-        self.df = df
         self.label = label
         self.train_test_ratio = train_test_ratio
-        self.train, self.evaluation_test = train_test_split(data, test_size=self.train_test_ratio)
+        self.train, self.evaluation_test = train_test_split(df, test_size=self.train_test_ratio)
         self.groups = self.create_groups(col_groups, row_groups)
         self.trees = []
         self.algorithm = algorithm
@@ -313,11 +312,11 @@ class RandomForest:
 ##################################Ignore this##############################################
 ###########################################################################################
 
-#data = pd.read_csv('data.csv')
+#x = pd.read_csv('data.csv')
 #data = dataset.get_data_for_model('../data/construction-data-processed.csv', balanced=False)
 #data = data.head(10000)
 #train, test = train_test_split(data, test_size=0.1)
 
-#rf = RandomForest(train, 'cat', col_groups=8, row_groups=3)
+#rf = RandomForest(x, 'cat', col_groups=2, row_groups=2)
 #print('Starting to evaluate forest')
-#rf.evaluate_forest(max_size=1000, increase = 10)
+#rf.evaluate_forest()
