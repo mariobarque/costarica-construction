@@ -8,125 +8,125 @@ from math import log
 import pandas as pd
 
 
-class TreeBuilder:
-    def __init__(self, label, impurity_function = 'entropy'):
-        self.label = label
-
-        if impurity_function == 'entropy':
-            self.impurity_fuc = self.entropy
-        else:
-            if impurity_function == 'gini':
-                self.impurity_fuc = self.gini
-            else:
-                raise Exception('Invalid impurity function')
-
-
-    def gini(self, df):
-        counts = list(df[self.label].value_counts())
-        impurity = 1
-        for lbl in counts:
-            prob_of_lbl = lbl / float(len(df))
-            impurity -= prob_of_lbl ** 2
-        return impurity
-
-
-    def entropy(self, df):
-        counts = list(df[self.label].value_counts())
-        impurity = 0
-        for cat_class in counts:
-            prob_of_class = cat_class / float(len(df))
-            impurity += prob_of_class * -1 * log(prob_of_class, 2)
-        return impurity
-
-
-    def info_gain(self, left, right, uncertainty):
-        p = 0
-        if len(left) + len(right) > 0:
-            p = float(len(left)) / (len(left) + len(right))
-        new_uncertainty = p * self.impurity_fuc(left) - (1 - p) * self.impurity_fuc(right)
-        return uncertainty - new_uncertainty
-
-
-    @staticmethod
-    def partition(df, column):
-        if column is None:
-            return pd.DataFrame(data=None), df
-
-        true_rows, false_rows = df.loc[df[column] == 1], df.loc[df[column] == 0]
-        return true_rows, false_rows
-
-
-    def find_best_feature(self, df, features):
-        best_gain = 0
-        best_feature = features[0]
-        current_uncertainty = self.impurity_fuc(df)
-
-        for feature in features:
-            true_rows, false_rows = TreeBuilder.partition(df, feature)
-
-            if len(true_rows) == 0 or len(false_rows) == 0:
-                continue
-
-            current_gain = self.info_gain(true_rows, false_rows, current_uncertainty)
-
-
-            if current_gain >= best_gain:
-                best_gain, best_feature = current_gain, feature
-
-        if best_feature is None:
-            print('This is an issue')
-
-        return best_gain, best_feature
-
-
-    def build_tree_cart(self, df):
-        features = list(df.columns.values)[1:]
-        current_gain, feature = self.find_best_feature(df, features)
-
-        if current_gain == 0:
-            return Leaf(df[self.label])
-
-        true_df, false_df = TreeBuilder.partition(df, feature)
-
-        true_branch = self.build_tree_cart(true_df)
-        false_branch = self.build_tree_cart(false_df)
-
-        return Node(feature, true_branch, false_branch)
-
-
-    def build_tree_id3(self, df):
-        features = list(df.columns.values)[1:]
-        return self.build_tree_id3_rec(features, df, df)
-
-
-    def get_classes(self, df):
-        class_counts = df[self.label].value_counts()
-        return class_counts
-
-
-    def build_tree_id3_rec(self, features, df, parent_df):
-        if len(df) == 0:
-            return Leaf(parent_df[self.label])
-
-        if len(features) == 0:
-            return Leaf(df[self.label])
-
-        classes = self.get_classes(df)
-        if len(classes) == 1:
-            return Leaf(df[self.label])
-
-        _, best_feature = self.find_best_feature(df, features)
-
-        true_df, false_df = TreeBuilder.partition(df, best_feature)
-        if best_feature is not None:
-            features.remove(best_feature)
-
-        # Because I know there are only two classes then I don't need to worry about
-        # Looping through all possible classes.
-        true_branch = self.build_tree_id3_rec(features, true_df, df)
-        false_branch = self.build_tree_id3_rec(features, false_df, df)
-
-        return Node(best_feature, true_branch, false_branch)
+# class TreeBuilder:
+#     def __init__(self, label, impurity_function = 'entropy'):
+#         self.label = label
+#
+#         if impurity_function == 'entropy':
+#             self.impurity_fuc = self.entropy
+#         else:
+#             if impurity_function == 'gini':
+#                 self.impurity_fuc = self.gini
+#             else:
+#                 raise Exception('Invalid impurity function')
+#
+#
+#     def gini(self, df):
+#         counts = list(df[self.label].value_counts())
+#         impurity = 1
+#         for lbl in counts:
+#             prob_of_lbl = lbl / float(len(df))
+#             impurity -= prob_of_lbl ** 2
+#         return impurity
+#
+#
+#     def entropy(self, df):
+#         counts = list(df[self.label].value_counts())
+#         impurity = 0
+#         for cat_class in counts:
+#             prob_of_class = cat_class / float(len(df))
+#             impurity += prob_of_class * -1 * log(prob_of_class, 2)
+#         return impurity
+#
+#
+#     def info_gain(self, left, right, uncertainty):
+#         p = 0
+#         if len(left) + len(right) > 0:
+#             p = float(len(left)) / (len(left) + len(right))
+#         new_uncertainty = p * self.impurity_fuc(left) - (1 - p) * self.impurity_fuc(right)
+#         return uncertainty - new_uncertainty
+#
+#
+#     @staticmethod
+#     def partition(df, column):
+#         if column is None:
+#             return pd.DataFrame(data=None), df
+#
+#         true_rows, false_rows = df.loc[df[column] == 1], df.loc[df[column] == 0]
+#         return true_rows, false_rows
+#
+#
+#     def find_best_feature(self, df, features):
+#         best_gain = 0
+#         best_feature = features[0]
+#         current_uncertainty = self.impurity_fuc(df)
+#
+#         for feature in features:
+#             true_rows, false_rows = TreeBuilder.partition(df, feature)
+#
+#             if len(true_rows) == 0 or len(false_rows) == 0:
+#                 continue
+#
+#             current_gain = self.info_gain(true_rows, false_rows, current_uncertainty)
+#
+#
+#             if current_gain >= best_gain:
+#                 best_gain, best_feature = current_gain, feature
+#
+#         if best_feature is None:
+#             print('This is an issue')
+#
+#         return best_gain, best_feature
+#
+#
+#     def build_tree_cart(self, df):
+#         features = list(df.columns.values)[1:]
+#         current_gain, feature = self.find_best_feature(df, features)
+#
+#         if current_gain == 0:
+#             return Leaf(df[self.label])
+#
+#         true_df, false_df = TreeBuilder.partition(df, feature)
+#
+#         true_branch = self.build_tree_cart(true_df)
+#         false_branch = self.build_tree_cart(false_df)
+#
+#         return Node(feature, true_branch, false_branch)
+#
+#
+#     def build_tree_id3(self, df):
+#         features = list(df.columns.values)[1:]
+#         return self.build_tree_id3_rec(features, df, df)
+#
+#
+#     def get_classes(self, df):
+#         class_counts = df[self.label].value_counts()
+#         return class_counts
+#
+#
+#     def build_tree_id3_rec(self, features, df, parent_df):
+#         if len(df) == 0:
+#             return Leaf(parent_df[self.label])
+#
+#         if len(features) == 0:
+#             return Leaf(df[self.label])
+#
+#         classes = self.get_classes(df)
+#         if len(classes) == 1:
+#             return Leaf(df[self.label])
+#
+#         _, best_feature = self.find_best_feature(df, features)
+#
+#         true_df, false_df = TreeBuilder.partition(df, best_feature)
+#         if best_feature is not None:
+#             features.remove(best_feature)
+#
+#         # Because I know there are only two classes then I don't need to worry about
+#         # Looping through all possible classes.
+#         true_branch = self.build_tree_id3_rec(features, true_df, df)
+#         false_branch = self.build_tree_id3_rec(features, false_df, df)
+#
+#         return Node(best_feature, true_branch, false_branch)
 
 
 
