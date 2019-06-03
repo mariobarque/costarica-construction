@@ -325,7 +325,7 @@ class RandomForest:
 
         return correct_predictions
 
-    def evaluate_forest(self, max_size = 100, increase = 1):
+    def evaluate_forest(self, max_size=100, increase=1):
         current_size = 0
         result = pd.DataFrame()
         while current_size <= max_size:
@@ -356,9 +356,9 @@ class RandomForest:
 # data = dataset.get_data_for_model('data/construction-data-processed.csv', balanced=False)
 # data = data.head(1000)
 # train, test = train_test_split(data, test_size=0.1)
-#
-#
-# tree_builder = TreeBuilder('cat', impurity_function='gini')
+# #
+# #
+# tree_builder = TreeBuilder('cat', impurity_function='entropy')
 # tree = tree_builder.build_tree_id3(train)
 # prediction = tree.predict_dataset(test)
 # tree.print()
