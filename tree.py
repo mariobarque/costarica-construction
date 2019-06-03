@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from math import log
 
+
 class Node:
     def __init__(self, feature, true_branch, false_branch, impurity, info_gain):
         self.feature = feature
@@ -76,6 +77,14 @@ class TreeBuilder:
             impurity -= prob_of_lbl ** 2
         return impurity
 
+    # @staticmethod
+    # def gini(counts, length):
+    #     impurity = 1
+    #     for lbl in counts:
+    #         prob_of_lbl = lbl / float(length)
+    #         impurity -= prob_of_lbl ** 2
+    #     return impurity
+
 
     def entropy(self, df):
         counts = list(df[self.label].value_counts())
@@ -85,6 +94,14 @@ class TreeBuilder:
             impurity -= prob_of_class * log(prob_of_class, 2)
         return impurity
 
+    # @staticmethod
+    # def entropy(counts, length):
+    #     impurity = 0
+    #     for cat_class in counts:
+    #         prob_of_class = cat_class / float(length)
+    #         impurity -= prob_of_class * log(prob_of_class, 2)
+    #     return impurity
+
 
     def info_gain(self, left, right, impurity):
         p = 0
@@ -92,6 +109,14 @@ class TreeBuilder:
             p = float(len(left)) / (len(left) + len(right))
         new_uncertainty = p * self.impurity_fuc(left) - (1 - p) * self.impurity_fuc(right)
         return impurity - new_uncertainty
+
+    # @staticmethod
+    # def info_gain(left_length, right_length, impurity_left, impurity_right, impurity):
+    #     p = 0
+    #     if left_length + right_length > 0:
+    #         p = float(left_length) / (left_length + right_length)
+    #     new_uncertainty = p * impurity_left - (1 - p) * impurity_right
+    #     return impurity - new_uncertainty
 
 
     @staticmethod
@@ -101,7 +126,6 @@ class TreeBuilder:
 
         true_rows, false_rows = df.loc[df[column] == 1], df.loc[df[column] == 0]
         return true_rows, false_rows
-
 
     def find_best_feature(self, df, features):
         best_gain = 0
@@ -147,7 +171,7 @@ class TreeBuilder:
         return class_counts
 
 
-    def build_tree_id3_rec(self, features, df, parent_df):
+    def build_tree_id3_rec(self, features, df, parent_df, prune_when_info_gain_less_than=0.5):
         if len(df) == 0:
             return Leaf(parent_df[self.label])
 
@@ -160,6 +184,11 @@ class TreeBuilder:
 
         impurity, info_gain, best_feature = self.find_best_feature(df, features)
 
+        # Pruning
+        if info_gain < prune_when_info_gain_less_than:
+            features.remove(best_feature)
+            return Leaf(df[self.label])
+
         true_df, false_df = TreeBuilder.partition(df, best_feature)
         if best_feature is not None:
             features.remove(best_feature)
@@ -170,6 +199,7 @@ class TreeBuilder:
         false_branch = self.build_tree_id3_rec(features, false_df, df)
 
         return Node(best_feature, true_branch, false_branch, impurity, info_gain)
+
 
 class RandomForest:
     def __init__(self, df, label, col_groups, row_groups, train_test_ratio=0.01, impurity_function='entropy', algorithm='id3'):
@@ -243,7 +273,9 @@ class RandomForest:
                         tree = self.tree_builder.build_tree_cart(group.head(top))
                 else:
                     raise Exception('Invalid algorithm')
-            self.trees.append(tree)
+
+            if not isinstance(tree, Leaf):
+                self.trees.append(tree)
 
 
     def predict(self, row, node):
@@ -308,3 +340,62 @@ class RandomForest:
             result.append(val, ignore_index=True)
 
         return result
+
+
+###########################################################################################
+###########################################################################################
+#########################From here on its testing only#####################################
+##################################Ignore this##############################################
+###########################################################################################
+
+
+
+#x = pd.read_csv('data.csv')
+#
+# import dataset
+# data = dataset.get_data_for_model('data/construction-data-processed.csv', balanced=False)
+# data = data.head(1000)
+# train, test = train_test_split(data, test_size=0.1)
+#
+#
+# tree_builder = TreeBuilder('cat', impurity_function='gini')
+# tree = tree_builder.build_tree_id3(train)
+# prediction = tree.predict_dataset(test)
+# tree.print()
+# #
+# corrects = 0
+# for i in range(len(test)):
+#     if test['cat'].values[i] == prediction[i]:
+#         corrects += 1
+#
+# print(float(corrects) / float(len(test)))
+#
+#
+#
+#
+#
+#
+# from sklearn.tree import DecisionTreeClassifier
+# model = DecisionTreeClassifier(criterion='entropy')
+#
+# x = train.drop('cat', axis=1)
+# y = train['cat'].values
+# model.fit(x, y)
+#
+# test_x = test.drop('cat', axis=1)
+# test_y = test['cat'].values
+#
+# test_predict = model.predict(test_x)
+#
+# corrects = 0
+# for i in range(len(test_y)):
+#   if test_y[i] == test_predict[i]:
+#     corrects += 1
+#
+# print(float(corrects) / float(len(test)))
+
+
+
+# rf = RandomForest(data, 'cat', col_groups=8, row_groups=5, impurity_function='gini')
+# print('Starting to evaluate forest')
+# rf.evaluate_forest(increase=2, max_size=50)
