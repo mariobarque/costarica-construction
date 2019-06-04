@@ -48,6 +48,27 @@ def get_region(data):
 
 
 '''
+@df dataframe
+@number_of_groups the number of groups to be splitted
+    Split the dataset by rows into x number of groups 
+'''
+def split_by_row(df, number_of_groups):
+    groups = []
+    group_len = int(len(df) / number_of_groups)
+
+    for i in range(0, number_of_groups):
+        current_cutoff = i * group_len
+        next_cutoff = current_cutoff + group_len
+
+        if i + 1 == number_of_groups:
+            groups.append(df[current_cutoff:].reset_index(drop=True))
+        else:
+            groups.append(df[current_cutoff:next_cutoff].reset_index(drop=True))
+
+    return groups
+
+
+'''
 @df the dataframe with the dat
 @cols the columns array
     Plot the distribution for all the numeric columns in the cols array

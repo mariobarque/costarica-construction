@@ -68,7 +68,6 @@ class TreeBuilder:
             else:
                 raise Exception('Invalid impurity function')
 
-
     def gini(self, df):
         counts = list(df[self.label].value_counts())
         impurity = 1
@@ -84,7 +83,6 @@ class TreeBuilder:
     #         prob_of_lbl = lbl / float(length)
     #         impurity -= prob_of_lbl ** 2
     #     return impurity
-
 
     def entropy(self, df):
         counts = list(df[self.label].value_counts())
@@ -102,7 +100,6 @@ class TreeBuilder:
     #         impurity -= prob_of_class * log(prob_of_class, 2)
     #     return impurity
 
-
     def info_gain(self, left, right, impurity):
         p = 0
         if len(left) + len(right) > 0:
@@ -117,7 +114,6 @@ class TreeBuilder:
     #         p = float(left_length) / (left_length + right_length)
     #     new_uncertainty = p * impurity_left - (1 - p) * impurity_right
     #     return impurity - new_uncertainty
-
 
     @staticmethod
     def partition(df, column):
@@ -145,7 +141,6 @@ class TreeBuilder:
 
         return impurity, best_gain, best_feature
 
-
     def build_tree_cart(self, df):
         features = list(df.columns.values)[1:]
         impurity, info_gain, feature = self.find_best_feature(df, features)
@@ -160,16 +155,13 @@ class TreeBuilder:
 
         return Node(feature, true_branch, false_branch, impurity, info_gain)
 
-
     def build_tree_id3(self, df):
         features = list(df.columns.values)[1:]
         return self.build_tree_id3_rec(features, df, df)
 
-
     def get_classes(self, df):
         class_counts = df[self.label].value_counts()
         return class_counts
-
 
     def build_tree_id3_rec(self, features, df, parent_df, prune_when_info_gain_less_than=0.5):
         if len(df) == 0:
@@ -255,7 +247,6 @@ class RandomForest:
             [groups.append(g) for g in row_groups]
 
         return groups
-
 
     def train_forest(self, top=None):
         self.trees.clear()
