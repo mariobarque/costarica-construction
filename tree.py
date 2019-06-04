@@ -327,7 +327,7 @@ class RandomForest:
 
     def evaluate_forest(self, max_size=100, increase=1):
         current_size = 0
-        result = pd.DataFrame()
+        result = []
         while current_size <= max_size:
             current_size += increase
 
@@ -337,9 +337,9 @@ class RandomForest:
 
             val = {'training_size': current_size, 'correctness': correctness}
             print(val)
-            result.append(val, ignore_index=True)
+            result.append(val)
 
-        return result
+        return pd.DataFrame(result)
 
 
 ###########################################################################################
@@ -396,6 +396,11 @@ class RandomForest:
 
 
 
-# rf = RandomForest(data, 'cat', col_groups=8, row_groups=5, impurity_function='gini')
+# rf = RandomForest(train, 'cat', col_groups=12,
+#                                               row_groups=2,
+#                                               train_test_ratio=0.2,
+#                                               impurity_function='entropy', # gini or entropy
+#                                               algorithm='id3') # id3 or cart
 # print('Starting to evaluate forest')
-# rf.evaluate_forest(increase=2, max_size=50)
+# evaluation = rf.evaluate_forest(increase=2, max_size=20)
+# print(evaluation)
