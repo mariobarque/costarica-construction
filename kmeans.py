@@ -10,6 +10,8 @@ class Kmeans:
         self.df = df
         self.label = label
         self.centroid_zero, self.centroid_one = self.get_initial_centroids()
+        self.cluster_zero = []
+        self.cluster_one = []
 
     def get_initial_centroids(self):
         zeros = self.df[self.df[self.label] == 0].reset_index(drop=True)
@@ -34,8 +36,8 @@ class Kmeans:
         return sqrt(dist)
 
     def iterate(self, data):
-        cluster_zero = []
-        cluster_one = []
+        self.cluster_zero = []
+        self.cluster_one = []
 
         for i in range(0, len(data)):
             series = data.loc[i]
@@ -43,12 +45,12 @@ class Kmeans:
             distance_with_one = self.distance(series, self.centroid_one)
 
             if distance_with_zero <= distance_with_one:
-                cluster_zero.append(series)
+                self.cluster_zero.append(series)
             else:
-                cluster_one.append(series)
+                self.cluster_one.append(series)
 
-        self.centroid_zero = pd.DataFrame(cluster_zero).mean(axis=0)
-        self.centroid_one = pd.DataFrame(cluster_one).mean(axis=0)
+        self.centroid_zero = pd.DataFrame(self.cluster_zero).mean(axis=0)
+        self.centroid_one = pd.DataFrame(self.cluster_one).mean(axis=0)
 
     def train(self, data, max_iter=10):
         # Drop the label
