@@ -52,9 +52,9 @@ class Kmeans:
         self.centroid_zero = pd.DataFrame(self.cluster_zero).mean(axis=0)
         self.centroid_one = pd.DataFrame(self.cluster_one).mean(axis=0)
 
-    def train(self, data, max_iter=10):
+    def train(self, max_iter=10):
         # Drop the label
-        data = data.drop(self.label, axis=1).reset_index(drop=True)
+        data = self.df.drop(self.label, axis=1).reset_index(drop=True)
 
         iteration = 0
         while iteration < max_iter:
