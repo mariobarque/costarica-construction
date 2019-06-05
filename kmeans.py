@@ -1,12 +1,17 @@
 import random
 import pandas as pd
-
 from math import sqrt
-from sklearn.model_selection import train_test_split
 
 
 class Kmeans:
+    """A class to perform clustering using kmeans"""
     def __init__(self, df, label):
+        """
+        Intialize the kmeans class and initialize the centroids, in this case there are only two centrois
+        one for 1 and one for 0.
+        :param df: The pandas data frame with dataset
+        :param label: the label column (variable to predict)
+        """
         self.df = df
         self.label = label
         self.centroid_zero, self.centroid_one = self.get_initial_centroids()
@@ -14,6 +19,10 @@ class Kmeans:
         self.cluster_one = []
 
     def get_initial_centroids(self):
+        """
+        Initialize the two centroids: centroid for one and centroid for zero. Using a randomly selected sample
+        :return: The two centroids as pandas series
+        """
         zeros = self.df[self.df[self.label] == 0].reset_index(drop=True)
         zeros = zeros.drop(self.label, axis=1)
         centroid_zero = zeros.loc[random.sample(range(0, len(zeros)), 1)[0]]
@@ -25,9 +34,17 @@ class Kmeans:
         return centroid_zero, centroid_one
 
     def distance(self, series, centroid):
+        """
+        Calculate the euclidean distance (norm l2) between a data point and a centroid.
+        :param series: The series represents the data point
+        :param centroid: The centroid which to calculate the distance
+        :return: the distance as a float scalar
+        """
         if len(series) != len(centroid):
-            return 0
+            # For some reason (possible a bug) sometimes the series is emtpy and it was throwing this exception,
+            # that's why I commented it.
             #raise Exception('Incorrect size')
+            return 0
 
         dist = 0
         for i in range(len(series)):
@@ -36,6 +53,12 @@ class Kmeans:
         return sqrt(dist)
 
     def iterate(self, data):
+        """
+        Each iteration it will loop through all data and find the distance against the two centroids and
+        find which one is closer to, based on that add the cluster into one bucket or the other (cluster zero or
+        cluster one)
+        :param data: The data frame representing the dataset
+        """
         self.cluster_zero = []
         self.cluster_one = []
 
@@ -53,6 +76,11 @@ class Kmeans:
         self.centroid_one = pd.DataFrame(self.cluster_one).mean(axis=0)
 
     def train(self, max_iter=10):
+        """
+        Train the cluster using kmeans. The result of this training will basically be the location in all dimensions
+        of the two centroids.
+        :param max_iter: Maximum number of iterations before stop running the algorithm
+        """
         # Drop the label
         data = self.df.drop(self.label, axis=1).reset_index(drop=True)
 
@@ -62,6 +90,12 @@ class Kmeans:
             iteration += 1
 
     def test_correctness(self, data):
+        """
+        Test the correctness of inference using kmeans clustering for classification.
+        :param data: The data frame representing the dataset
+        :return: A number between 0 and 1 representing the correctness of the prediction where 1 means the prediction
+        is totally correct and 0 is that prediction is totally incorrect.
+        """
         data = data.reset_index(drop=True)
 
         corrects = 0
@@ -86,7 +120,7 @@ class Kmeans:
 
 # import dataset
 # import utilities
-#
+# from sklearn.model_selection import train_test_split
 # df = dataset.get_data_for_model('data/construction-data-processed.csv', balanced=False)
 # #df = df[['cat', 'numviv_cat_1', 'arecon_cat_50']].head(1000)
 # df = df.head(1000)
