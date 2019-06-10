@@ -131,7 +131,7 @@ def train(train_dataset, k, model, prediction_variable):
 Return the errors, average weights from input layer -> hidden layer and 
 average weights from hidden layer -> output layer  
 '''
-def train_network(train_dataset, k, model, prediction_variable, epochs = 50, alpha = 0.1):
+def train_network(train_dataset, k, model, prediction_variable, hidden_layer_size, epochs = 50, alpha = 0.1):
     k_trains = create_k_trains(k, train_dataset)
     errors_list = []
     wo_list = []
@@ -144,7 +144,7 @@ def train_network(train_dataset, k, model, prediction_variable, epochs = 50, alp
                 current_train = current_train.append(k_trains[j], ignore_index=True)
 
         current_test = k_trains[i]
-        errors, wo, ws = model(current_test, prediction_variable, epochs, alpha)
+        errors, wo, ws = model(current_test, hidden_layer_size, prediction_variable, epochs, alpha)
         errors_list.append(errors)
         wo_list.append(wo.numpy())
         ws_list.append(ws.numpy())

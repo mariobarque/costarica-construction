@@ -130,11 +130,11 @@ def get_data(df, prediction_variable):
         - adjust weights which is the feed back, forming the back propagation
 Return the error and the weights
 '''
-def train(df, prediction_variable, epochs = 50, alpha = 0.1):
+def train(df, prediction_variable, hidden_layer_size, epochs = 50, alpha = 0.1):
     X, T = get_data(df, prediction_variable)
     columns_size = X.shape[1]
 
-    input_layer_size, hidden_layer_size, output_layer_size = columns_size, columns_size, 1
+    input_layer_size, output_layer_size = columns_size, 1
     wo, ws = create_multilayer_perceptron_parameters(input_layer_size, hidden_layer_size, output_layer_size)
 
     errors = []
