@@ -3,6 +3,83 @@ import pandas as pd
 from math import sqrt
 
 
+def split_by_row(df, number_of_groups):
+    """
+    Split the dataset by rows into x number of groups
+    :param df: the data frame with the data set
+    :param number_of_groups: the number of groups to be split
+    :return: the groups with the data set split
+    """
+    groups = []
+    group_len = int(len(df) / number_of_groups)
+
+    for i in range(0, number_of_groups):
+        current_cutoff = i * group_len
+        next_cutoff = current_cutoff + group_len
+
+        if i + 1 == number_of_groups:
+            groups.append(df[current_cutoff:].reset_index(drop=True))
+        else:
+            groups.append(df[current_cutoff:next_cutoff].reset_index(drop=True))
+
+    return groups
+
+
+def train_multiple(data, number_of_groups, max_iter=10):
+    """
+    train multiple kmeans
+    :param data: the data
+    :param number_of_groups: the number of groups
+    :param max_iter: the max number of iterations
+    :return: the list of kmeans
+    """
+    groups = split_by_row(data, number_of_groups)
+    kmeans_list = []
+    for group in groups:
+        kmeans_classfier = Kmeans(group, 'cat')
+        kmeans_classfier.train(max_iter=max_iter)
+        kmeans_list.append(kmeans_classfier)
+
+    return kmeans_list
+
+
+def correctness_with_multiple_kmeans(test_df, kmeans_list):
+    """
+    find the correctness of trianing multiple datasets
+    :param test_df: the test dataset
+    :param kmeans_list: the list of kmeans
+    :return: the correctness as scalar
+    """
+    data = test_df.reset_index(drop=True)
+
+    corrects = 0
+    for i in range(0, len(data)):
+        series = data.loc[i]
+        real_value = series['cat']
+        series = series.drop(labels=['cat'])
+
+        predictions_zero = 0
+        predictions_one = 0
+        for kmeans in kmeans_list:
+            distance_with_zero = kmeans.distance(series, kmeans.centroid_zero)
+            distance_with_one = kmeans.distance(series, kmeans.centroid_one)
+
+            if distance_with_zero <= distance_with_one:
+                predictions_zero += 1
+            else:
+                predictions_one += 1
+
+        if predictions_zero >= predictions_one:
+            prediction = 0
+        else:
+            prediction = 1
+
+        if prediction == real_value:
+            corrects += 1
+
+    return float(corrects) / float(len(data))
+
+
 class Kmeans:
     """A class to perform clustering using kmeans"""
     def __init__(self, df, label):
