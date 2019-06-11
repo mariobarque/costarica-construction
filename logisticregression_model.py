@@ -2,30 +2,31 @@ import torch
 import torch.nn as nn
 
 
-'''
-@W weights
-@X the datasets
-    Perform the sigmoid function of the multiplication between weights and dataset
-Returns the activation
-'''
 def evaluate_sigmoid(W, X):
+    """
+    Perform the sigmoid function of the multiplication between weights and dataset
+    :param W: weights
+    :param X: the datasets
+    :return: Returns the activation
+    """
     net_weights = torch.mm(X, W)
     sigmoid = nn.Sigmoid()
     activation = sigmoid(net_weights)
     return activation
 
-'''
-@weights the previous weights
-@samples the data set
-@alpha how fast to adjust the weights
-@target real values
+
+def get_delta_weights_for_class(weights, samples, alpha, target):
+    """
     Runs activation function which is the sigmoid function.
     With the activation samples calculate the new error.
     With the new error calculate the delta weights
     And re calculate the weights based on alpha and the delta weights
-Returns the delta between target and prediction
-'''
-def get_delta_weights_for_class(weights, samples, alpha, target):
+    :param weights: the previous weights
+    :param samples: the data set
+    :param alpha: how fast to adjust the weights
+    :param target: real values
+    :return: the delta between target and prediction
+    """
     activation_samples = evaluate_sigmoid(weights, samples)
     error = (target - activation_samples)
     delta_weights = samples * error
@@ -33,18 +34,18 @@ def get_delta_weights_for_class(weights, samples, alpha, target):
     return delta_weights_with_alpha
 
 
-'''
-@class_zeros the samples with the category value in zero
-@class_ones the samples with the category value in one
-@iterations number of iterations to run the regression
-@alpha how fast to adjust the weights
+def train_logistic_regression(class_zeros, class_ones, iterations, alpha):
+    """
     Loop 'iterations' times. Every iterations
         - Get delta weights for class zero
         - Get delta weights for class one
         - Calculate the total weights
-Returns the weights
-'''
-def train_logistic_regression(class_zeros, class_ones, iterations, alpha):
+    :param class_zeros: the samples with the category value in zero
+    :param class_ones: the samples with the category value in one
+    :param iterations: number of iterations to run the regression
+    :param alpha: how fast to adjust the weights
+    :return: Returns the weights
+    """
     class_zeros = torch.from_numpy(class_zeros).float()
     class_ones = torch.from_numpy(class_ones).float()
 
@@ -59,16 +60,17 @@ def train_logistic_regression(class_zeros, class_ones, iterations, alpha):
 
     return weights.numpy().T[0]
 
-'''
-@df the dataset 
-@variable the prediction variable
-@iterations number of iterations to run the regression
-@alpha how fast to adjust the weights
+
+def train(df, variable, iterations = 50, alpha = 0.1):
+    """
     Creates two classes, the one for ones and the one for zeros
     Make logistic regression for binary classification with these two clases
-Returns the weights
-'''
-def train(df, variable, iterations = 50, alpha = 0.1):
+    :param df: the dataset
+    :param variable: the prediction variable
+    :param iterations: number of iterations to run the regression
+    :param alpha: how fast to adjust the weights
+    :return: the weights
+    """
     classZero = df.loc[df[variable] == 0].drop(variable, 1)
     classOne = df.loc[df[variable] == 1].drop(variable, 1)
 

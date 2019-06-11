@@ -15,12 +15,13 @@ extra_categorical_columns = ['num_obras_cat', 'arecon_cat', 'numpis_cat', 'numvi
 data = []
 
 
-'''
-@path the file's path inside the repo
+def load_data(path):
+    """
     Load the data from the csv into a pandas dataframe
     Transform the numerical values into categorical values
-'''
-def load_data(path):
+    :param path: the file's path inside the repo
+    :return:
+    """
     global data
     data = pd.read_csv(path)
     # Shuffle data
@@ -28,27 +29,27 @@ def load_data(path):
     numerical_to_categorical(data)
 
 
-'''
-    In case someone wants the numerical + categorical values
-Returns the dataframe with numerical an categorical columns
-'''
 def get_data_set():
+    """
+    In case someone wants the numerical + categorical values
+    :return: the dataframe with numerical an categorical columns
+    """
     columns = numeric_columns + categorical_columns
     df = data[columns]
     return df
 
 
-'''
-@path the csv file's path
-@N the number of samples to limit. If not set, then it'll used all possible values
-@balanced whether we want the data balanced or not
+def get_data_for_model(path, N = None, balanced = True):
+    """
     - Load data, since all data is set to categorical data all columns will be full of
       ones an zeros.
     - Add the prediction variable. Since we need a balanced dataset we need to find the
-      size of category with less elements and that quantity of samples from both categories. 
-Returns the dataframe ready to be run in models.
-'''
-def get_data_for_model(path, N = None, balanced = True):
+      size of category with less elements and that quantity of samples from both categories.
+    :param path: the csv file's path
+    :param N: the number of samples to limit. If not set, then it'll used all possible values
+    :param balanced: whether we want the data balanced or not
+    :return: the dataframe ready to be run in models.
+    """
     load_data(path)
     cols = categorical_columns + extra_categorical_columns
 
@@ -83,28 +84,28 @@ def get_data_for_model(path, N = None, balanced = True):
     return df_analysis
 
 
-'''
-Returns the dataframe with all categorical values already converted by one hot encoding
-'''
 def get_data_set_for_analysis():
+    """
+    :return: the dataframe with all categorical values already converted by one hot encoding
+    """
     columns = categorical_columns + extra_categorical_columns
     columns.append('cat') # variable to predict
     df = data[columns]
     return df
 
 
-'''
-Returns the dataframe with all numerical values
-'''
 def get_numerical_data_set():
+    """
+    :return: the dataframe with all numerical values
+    """
     df = data[numeric_columns]
     return df
 
 
-'''
-Returns the dataframe with all categorical values 
-'''
 def get_categorical_data_set():
+    """
+    :return: the dataframe with all categorical values
+    """
     df = data[categorical_columns]
     return df
 

@@ -7,7 +7,7 @@ class Kmeans:
     """A class to perform clustering using kmeans"""
     def __init__(self, df, label):
         """
-        Intialize the kmeans class and initialize the centroids, in this case there are only two centrois
+        Initialize the kmeans class and initialize the centroids, in this case there are only two centrois
         one for 1 and one for 0.
         :param df: The pandas data frame with dataset
         :param label: the label column (variable to predict)
