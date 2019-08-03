@@ -1,15 +1,15 @@
 import numpy as np
 
 
-'''
-@df the data frame with training dataset
-@variable the prediction variable
-    Perform least square calculation 
+def train(df, variable):
+    """
+    Perform least square calculation
     A is the dataset with all columns
     b is the prediction variable column
-Return the weights from least square
-'''
-def train(df, variable):
+    :param df: the data frame with training dataset
+    :param variable: the prediction variable
+    :return: the weights from least square
+    """
     b = df[variable].values
     current_train = df.drop(variable, 1)
     A = current_train.values
